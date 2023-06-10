@@ -51,6 +51,9 @@ public class DefaultUserServiceImpl implements DefaultUserService{
 		 role = roleRepo.findByRole("ROLE_ADMIN");
 
 		User user = new User();
+
+		user.setFirstName(userRegisteredDTO.getFirstName());
+		user.setLastName(userRegisteredDTO.getLastName());
 		user.setEmail(userRegisteredDTO.getEmail());
 		user.setEmail(userRegisteredDTO.getEmail());
 		user.setPassword(passwordEncoder.encode(userRegisteredDTO.getPassword()));
