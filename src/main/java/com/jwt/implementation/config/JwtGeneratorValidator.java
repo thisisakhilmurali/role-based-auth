@@ -29,7 +29,7 @@ public class JwtGeneratorValidator {
 	@Autowired
 	DefaultUserService userService;
 	
-    private final String SECRET = "codeWithRaman";
+    private final String SECRET = "my_secret_key";
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);

@@ -31,9 +31,9 @@ public class DefaultUserServiceImpl implements DefaultUserService{
 	private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 	
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		 User user = userRepo.findByUserName(username);
-	     return new org.springframework.security.core.userdetails.User(user.getUserName(), user.getPassword(), mapRolesToAuthorities(user.getRole()));
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+		 User user = userRepo.findByEmail(email);
+	     return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), mapRolesToAuthorities(user.getRole()));
 	}
 	
 	public Collection<? extends GrantedAuthority> mapRolesToAuthorities(Set<Role> roles){
@@ -42,14 +42,17 @@ public class DefaultUserServiceImpl implements DefaultUserService{
 
 	@Override
 	public User save(UserDTO userRegisteredDTO) {
+
 		Role role = new Role();
+
 		if(userRegisteredDTO.getRole().equals("USER"))
 		  role = roleRepo.findByRole("ROLE_USER");
 		else if(userRegisteredDTO.getRole().equals("ADMIN"))
 		 role = roleRepo.findByRole("ROLE_ADMIN");
+
 		User user = new User();
 		user.setEmail(userRegisteredDTO.getEmail());
-		user.setUserName(userRegisteredDTO.getUserName());
+		user.setEmail(userRegisteredDTO.getEmail());
 		user.setPassword(passwordEncoder.encode(userRegisteredDTO.getPassword()));
 		user.setRole(role);
 		

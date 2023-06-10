@@ -56,7 +56,7 @@ public class RestAppController {
 	public String generateJwtToken(@RequestBody UserDTO userDto) throws Exception {
 		
 			Authentication authentication = authManager.authenticate(
-					new UsernamePasswordAuthenticationToken(userDto.getUserName(), userDto.getPassword()));
+					new UsernamePasswordAuthenticationToken(userDto.getEmail(), userDto.getPassword()));
 			SecurityContextHolder.getContext().setAuthentication(authentication);
 		
 		return jwtGenVal.generateToken(authentication);
@@ -66,25 +66,25 @@ public class RestAppController {
 	@GetMapping("/welcomeAdmin")
 	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 	public String welcome() {
-		return "WelcomeAdmin";
+		return "This page is only visible to Admin";
 	}
 
 	@GetMapping("/welcomeUser")
 	@PreAuthorize("hasAuthority('ROLE_USER')")
 	public String welcomeUser() {
-		return "WelcomeUSER";
+		return "This page is only visible to User";
 	}
 
 	
 	
-	public ResponseEntity<Object> generateRespose(String message, HttpStatus st, Object responseobj) {
+	public ResponseEntity<Object> generateRespose(String message, HttpStatus httpStatus, Object responseObject) {
 
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("meaasge", message);
-		map.put("Status", st.value());
-		map.put("data", responseobj);
+		map.put("message", message);
+		map.put("Status", httpStatus.value());
+		map.put("data", responseObject);
 
-		return new ResponseEntity<Object>(map, st);
+		return new ResponseEntity<Object>(map, httpStatus);
 	}
 
 }
